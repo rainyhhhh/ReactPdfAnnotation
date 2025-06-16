@@ -101,7 +101,7 @@ export const findOrCreateContainerLayer = (container: HTMLElement): HTMLElement 
     return containerLayer
 }
 
-export const startTransientRectangle = (lastMousePosition: { x: number, y: number}, element: HTMLElement) => {
+export const startTransientRectangle = (lastMousePosition: { x: number, y: number}) => {
     areaFirstPoint = lastMousePosition;
     transientRectangle = {
         left: lastMousePosition.x,

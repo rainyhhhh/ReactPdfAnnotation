@@ -32,7 +32,6 @@ export const PdfViewer = forwardRef(
     useImperativeHandle(ref, () => ({
       scrollToAnnoatation(annotation: Annotation): void {
         if (!pdfViewerRef.current) return;
-        console.log('parent', pdfViewerRef.current)
         const parent = (pdfViewerRef.current)
         ?.querySelector(
           'div[data-testid="core__inner-pages"]'
@@ -85,12 +84,6 @@ export const PdfViewer = forwardRef(
           setIsStartingArea(true);
           // Set the first point of the area
           const pageRectangle = pageElement.getBoundingClientRect();
-          console.log(
-            "pageRectangle:",
-            pageRectangle,
-            pageElement.clientLeft,
-            pageElement.clientTop
-          );
           const x = pageRectangle.left + pageElement.clientLeft;
           const y = pageRectangle.top + pageElement.clientTop;
           // Store the first point for later use
@@ -104,7 +97,7 @@ export const PdfViewer = forwardRef(
             x: $event.clientX - getCurrentPagePosition().x,
             y: $event.clientY - getCurrentPagePosition().y,
           };
-          startTransientRectangle(lastMousePosition, pageElement);
+          startTransientRectangle(lastMousePosition);
           console.log("start transient rectangle at:", lastMousePosition);
         } else if ($event.type === "mousemove" && isStartingArea) {
           // Update the transient rectangle
