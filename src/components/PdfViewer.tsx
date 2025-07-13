@@ -30,7 +30,7 @@ export const PdfViewer = forwardRef(
     const { jumpToPage } = pageNaviationPluginInstance;
 
     useImperativeHandle(ref, () => ({
-      scrollToAnnoatation(annotation: Annotation): void {
+      scrollToAnnotation(annotation: Annotation): void {
         if (!pdfViewerRef.current) return;
         const parent = (pdfViewerRef.current)
         ?.querySelector(

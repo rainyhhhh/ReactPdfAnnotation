@@ -4,14 +4,18 @@ import { PdfViewer } from "./components/PdfViewer";
 import { mockedAnnotations } from "./components/mock";
 import type { Annotation } from "./components/HighlightUtils";
 
+type PdfViewerHandle = {
+  scrollToAnnotation: (annotation: Annotation) => void;
+};
+
 function App() {
   const [annotations, setAnnotations] = useState(mockedAnnotations);
-  const pdfViewerRef = useRef<any>(null);
+  const pdfViewerRef = useRef<PdfViewerHandle>(null);
   const addAnnoation = (annotation: Annotation) => {
     setAnnotations((prevAnnotations) => [...prevAnnotations, annotation]);
   };
   const scrollToAnnoatation = (annotation: Annotation) => {
-    pdfViewerRef.current?.scrollToAnnoatation(annotation);
+    pdfViewerRef.current?.scrollToAnnotation(annotation);
   }
 
   return (
