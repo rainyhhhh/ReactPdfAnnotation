@@ -24,7 +24,7 @@ export const PdfViewer = forwardRef(
   ({ annotations, addAnnoation }: PdfViewerProps, ref) => {
     const [isStartingArea, setIsStartingArea] = useState(false);
     const pageNumber = useRef(0);
-    const pdfViewerRef = useRef<HTMLDivElement>(null)
+    const pdfViewerRef = useRef<HTMLDivElement>(null);
 
     const pageNaviationPluginInstance = pageNavigationPlugin();
     const { jumpToPage } = pageNaviationPluginInstance;
@@ -32,12 +32,15 @@ export const PdfViewer = forwardRef(
     useImperativeHandle(ref, () => ({
       scrollToAnnotation(annotation: Annotation): void {
         if (!pdfViewerRef.current) return;
-        const parent = (pdfViewerRef.current)
-        ?.querySelector(
+        const parent = pdfViewerRef.current?.querySelector(
           'div[data-testid="core__inner-pages"]'
         ) as HTMLElement;
         if (!parent || !parent.firstChild) return;
-        const current_page = parseInt((parent.firstChild as HTMLElement).getAttribute("data-testid")?.split('-')[3] as string);
+        const current_page = parseInt(
+          (parent.firstChild as HTMLElement)
+            .getAttribute("data-testid")
+            ?.split("-")[3] as string
+        );
         if (current_page === annotation.position.pageNumber) {
           startScroll(parent, annotation);
           return;
@@ -50,13 +53,16 @@ export const PdfViewer = forwardRef(
     }));
 
     const startScroll = (parent: HTMLElement, annotation: Annotation) => {
-      const target_parent_page =  parent.querySelector(`div[aria-label="Page ${annotation.position.pageNumber + 1}"]`) as HTMLElement;
+      const target_parent_page = parent.querySelector(
+        `div[aria-label="Page ${annotation.position.pageNumber + 1}"]`
+      ) as HTMLElement;
       const target_page = target_parent_page.querySelector(
-        `.rpv-core__page-layer`) as HTMLElement;
+        `.rpv-core__page-layer`
+      ) as HTMLElement;
       const position = getScaledPosition(annotation.position, {
         width: target_page.getBoundingClientRect().width,
         height: target_page.getBoundingClientRect().height,
-      })
+      });
       // get the offsetTop of the target page by translateY
       const transZRegex = /\.*translateY\((.*)px\)/i;
       const arr = transZRegex.exec(target_parent_page.style.transform);
@@ -64,8 +70,8 @@ export const PdfViewer = forwardRef(
         const pageTop = parseFloat(arr[1]);
         parent.scrollTop = pageTop + position.top - 10; // -10 for some padding
       }
-      parent.scrollLeft = position.left - 10; // -10 for some padding 
-    }
+      parent.scrollLeft = position.left - 10; // -10 for some padding
+    };
 
     const mouseEvent = (
       $event: React.MouseEvent<HTMLDivElement, MouseEvent>
